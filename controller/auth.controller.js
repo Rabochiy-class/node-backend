@@ -82,7 +82,7 @@ export default class AuthController {
             const stringified = JSON.stringify(parameters.data);
             const requestOptions = prepareRequestOptions({...parameters, data: stringified});
             const res = await performChunkedRequestWithSideEffect(requestOptions, stringified, (apiResponse) => {
-                response.cookie('token', apiResponse.headers.token, { maxAge: 90000000, httpOnly: true });
+                response.cookie('token', apiResponse.headers.token, { maxAge: 90000000, httpOnly: true, sameSite: 'none', secure: 'true' });
             });
             const responseContent = JSON.parse(res);
 
