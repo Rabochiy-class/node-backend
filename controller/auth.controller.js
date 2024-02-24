@@ -153,16 +153,16 @@ class AuthController {
       };
       
       var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+        const apiReq = https.request(options, (apiRes) => {
         
           const body = []
   
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
+          apiRes.on('data', (chunk) => body.push(chunk))
+          apiRes.on('end', () => {
 
             const resString = Buffer.concat(body).toString()
-            console.log( 'resheaders: ', res.headers.token )
-            console.log( 'resheaders: ', res.headers.setCookie[1] )
+
+            res.cookie('token', apiRes.headers.token, { maxAge: 90000000, httpOnly: true });
 
             resolve(resString)
           })
@@ -185,6 +185,7 @@ class AuthController {
 
   async logoutUser( req, res ) {
     try {
+      console.log( req.headers )
 
       var postData = JSON.stringify(req.body)
     
@@ -196,7 +197,7 @@ class AuthController {
         headers: {
             'Content-Type': 'application/json',
             'Content-Length': postData.length,
-            'Authorization': 'Token 1edf1c4c1b256c01a0c43b80265bd7be1641f270'
+            'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
           }
       };
       
@@ -241,7 +242,7 @@ class AuthController {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': postData.length
+            'Content-Length': postData.length,
           }
       };
       
@@ -646,7 +647,7 @@ class AuthController {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Content-Length': postData.length
+            'Content-Length': postData.length,
           }
       };
       

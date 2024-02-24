@@ -1,5 +1,4 @@
 import express from "express"
-import { pool } from './db.js'
 import authRouter from "./routes/auth.routes.js"
 import donationRouter from "./routes/donation.routes.js"
 
