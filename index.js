@@ -11,6 +11,8 @@ const app = express();
 const corsConfig = {
   origin: '*',
   allowedHeaders: '*',
+  credentials: true,
+  'Access-Control-Allow-Credentials': true,
 }
 const corsMiddleware = cors( corsConfig )
 app.use( corsMiddleware )
