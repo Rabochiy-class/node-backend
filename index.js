@@ -3,11 +3,20 @@ import authRouter from "./routes/auth.routes.js";
 import donationRouter from "./routes/donation.routes.js";
 import donationPlanRouter from "./routes/donationPlan.routes.js";
 import infoRouter from "./routes/info.routes.js";
+import cors from 'cors'
 
 const PORT = 5000;
 const app = express();
 
+const corsConfig = {
+  origin: '*',
+  allowedHeaders: '*',
+}
+const corsMiddleware = cors( corsConfig )
+app.use( corsMiddleware )
+
 app.use(express.json());
+
 
 app.use('/', authRouter);
 app.use('/', donationRouter);
