@@ -11,7 +11,7 @@ const app = express();
 const corsConfig = {
   origin: true, // Рефлектить запросивший домен в Access-Control-Allow-Origin
   credentials: true, // Позволить отправку креденшалов (куки, HTTP аутентификация)
-  allowedHeaders: '*', // Разрешить все заголовки
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] // Разрешить все методы
 }
 const corsMiddleware = cors( corsConfig )
