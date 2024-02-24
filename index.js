@@ -9,10 +9,10 @@ const PORT = 5000;
 const app = express();
 
 const corsConfig = {
-  origin: '*',
-  allowedHeaders: '*',
-  credentials: true,
-  'Access-Control-Allow-Credentials': true,
+  origin: true, // Рефлектить запросивший домен в Access-Control-Allow-Origin
+  credentials: true, // Позволить отправку креденшалов (куки, HTTP аутентификация)
+  allowedHeaders: '*', // Разрешить все заголовки
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'] // Разрешить все методы
 }
 const corsMiddleware = cors( corsConfig )
 app.use( corsMiddleware )
