@@ -1,0 +1,32 @@
+{
+  "name": "firstbackend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node study.js",
+    "dev": "nodemon index.js",
+    "parse-data": "node parser/index.js",
+    "check-s3": "node s3.js",
+    "generate:api": "openapi-generator-cli generate -g nodejs-express-server --global-property  apis=Applications,models,supportingFiles -o src/services/api -i ./swagger.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.496.0",
+    "async": "^3.2.5",
+    "aws-sdk": "^2.1540.0",
+    "axios": "^1.5.0",
+    "cheerio": "^1.0.0-rc.12",
+    "express": "^4.18.2",
+    "pg": "^8.11.3",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.7.0",
+    "nodemon": "^3.0.1"
+  }
+}

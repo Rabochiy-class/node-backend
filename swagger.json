@@ -1,0 +1,754 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "admin-panel",
+    "version": "1.0.0"
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Applications"
+    },
+    {
+      "name": "Auth"
+    }
+  ],
+  "paths": {
+    "/authorization": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "авторизация в сервис",
+        "operationId": "authorize",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "login",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "password",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "получить список всех заявок",
+        "operationId": "getApplications",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectName",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "page",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lmsOrderId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lmsClientId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pldcClientId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pldcDeviceId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dateFrom",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dateTo",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "lmsStatus",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "in": "query",
+            "name": "pldcStatus",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "isDebtor",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all applications",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedApplications"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}/params/lms": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "получить параметры lms по id заявки",
+        "operationId": "getLmsParams",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get LmsParams",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LmsParams"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}/params/pldcInput": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "получить входящие параметры PLDC по id заявки",
+        "operationId": "getPldcInputParams",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get PldcInputParams",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PldcInputParams"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}/params/pldcOutput": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "получить исходящие параметры PLDC по id заявки",
+        "operationId": "getPldcOutputParams",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get pldcOutputParams",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PldcOutputParams"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{id}/params/juicy": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "получить параметры juicy по id заявки",
+        "operationId": "getJuicyParams",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get juicyParams",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JuicyParams"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/stats": {
+      "get": {
+        "tags": [
+          "Applications"
+        ],
+        "summary": "получить статистику по заявкам",
+        "operationId": "getApplicationStats",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "projectName",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "timePeriod",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get juicyParams",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationsInfo"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string"
+          }
+        }
+      },
+      "PaginatedApplications": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Application"
+            }
+          }
+        }
+      },
+      "Application": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "lmsOrderId": {
+            "type": "string"
+          },
+          "lmsClientId": {
+            "type": "string"
+          },
+          "lmsStatus": {
+            "type": "string"
+          },
+          "lmsDecision": {
+            "type": "string"
+          },
+          "pldcClientId": {
+            "type": "string"
+          },
+          "pldcDeviceId": {
+            "type": "string"
+          },
+          "score": {
+            "type": "string"
+          },
+          "pldcDecision": {
+            "type": "string"
+          }
+        }
+      },
+      "LmsParams": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "orderId": {
+            "type": "string"
+          },
+          "clientId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "decision": {
+            "type": "string"
+          },
+          "isSecond": {
+            "type": "boolean"
+          },
+          "isDebtor": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PldcInputParams": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "ev": {
+            "type": "string"
+          },
+          "dl": {
+            "type": "string"
+          },
+          "rl": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          },
+          "colorDepth": {
+            "type": "string"
+          },
+          "dt": {
+            "type": "string"
+          },
+          "md": {
+            "type": "string"
+          },
+          "ua": {
+            "type": "string"
+          },
+          "timezone": {
+            "type": "string"
+          },
+          "videocard": {
+            "type": "string"
+          },
+          "horizontalSpace": {
+            "type": "number"
+          },
+          "verticalSpace": {
+            "type": "number"
+          },
+          "screenResolution": {
+            "type": "string"
+          },
+          "browserName": {
+            "type": "string"
+          },
+          "browserVersion": {
+            "type": "string"
+          },
+          "operationType": {
+            "type": "string"
+          },
+          "operationVersion": {
+            "type": "string"
+          },
+          "deviceType": {
+            "type": "string"
+          },
+          "coreAmount": {
+            "type": "number"
+          },
+          "screenOrientation": {
+            "type": "string"
+          },
+          "inputType": {
+            "type": "string"
+          },
+          "aspectRatio": {
+            "type": "string"
+          },
+          "pixelRatio": {
+            "type": "number"
+          },
+          "userLangs": {
+            "$ref": "#/components/schemas/LangsInfo"
+          },
+          "userLang": {
+            "type": "string"
+          },
+          "isPrivate": {
+            "type": "boolean"
+          },
+          "battery": {
+            "$ref": "#/components/schemas/BatteryInfo"
+          },
+          "hasWebAudio": {
+            "type": "boolean"
+          },
+          "camerasCount": {
+            "type": "number"
+          },
+          "microphonesCount": {
+            "type": "number"
+          },
+          "speakersCount": {
+            "type": "number"
+          },
+          "deviceMemory": {
+            "type": "number"
+          },
+          "hasAdBlocker": {
+            "type": "boolean"
+          },
+          "mediaDevices": {
+            "$ref": "#/components/schemas/MediaDevices"
+          },
+          "hasSensor": {
+            "type": "boolean"
+          },
+          "deviceOrientation": {
+            "$ref": "#/components/schemas/DeviceOrientation"
+          },
+          "motionParams": {
+            "$ref": "#/components/schemas/MotionParams"
+          },
+          "cookieEnabled": {
+            "type": "boolean"
+          },
+          "browserPrint": {
+            "type": "string"
+          },
+          "sessionId": {
+            "type": "string"
+          },
+          "isConsoleOpened": {
+            "type": "boolean"
+          },
+          "speechSynthesis": {
+            "$ref": "#/components/schemas/SpeechSynthesis"
+          }
+        }
+      },
+      "PldcOutputParams": {
+        "type": "object",
+        "properties": {
+          "ipLocalBl": {
+            "type": "boolean"
+          },
+          "deviceLocalBl": {
+            "type": "boolean"
+          },
+          "userLocalBl": {
+            "type": "boolean"
+          },
+          "ispLocalBl": {
+            "type": "boolean"
+          },
+          "globalIpBl": {
+            "type": "boolean"
+          },
+          "isTor": {
+            "type": "boolean"
+          },
+          "isVm": {
+            "type": "boolean"
+          },
+          "sameCountry": {
+            "type": "boolean"
+          },
+          "seenBefore": {
+            "type": "boolean"
+          },
+          "realIpMismatch": {
+            "type": "boolean"
+          },
+          "isProxy": {
+            "type": "boolean"
+          },
+          "sameDevice": {
+            "type": "boolean"
+          },
+          "sameGeolocation": {
+            "type": "boolean"
+          },
+          "sameMail": {
+            "type": "boolean"
+          },
+          "samePhone": {
+            "type": "boolean"
+          },
+          "sameTomezone": {
+            "type": "boolean"
+          },
+          "browserVersion": {
+            "type": "string"
+          },
+          "activeLoanCount": {
+            "type": "number"
+          }
+        }
+      },
+      "ApplicationsInfo": {
+        "type": "object",
+        "properties": {
+          "info": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApplicationStatus"
+            }
+          }
+        }
+      },
+      "ApplicationStatus": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "error",
+              "process",
+              "rejection",
+              "approval"
+            ]
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "BatteryInfo": {
+        "type": "object",
+        "properties": {
+          "chargeLevel": {
+            "type": "number"
+          },
+          "isCharging": {
+            "type": "boolean"
+          },
+          "chargingLeft": {
+            "type": "string"
+          }
+        }
+      },
+      "LangsInfo": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "MediaDevices": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/MediaInfo"
+        }
+      },
+      "MediaInfo": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SpeechSynthesis": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SpeechInfo"
+        }
+      },
+      "SpeechInfo": {
+        "type": "object",
+        "properties": {
+          "voiceUrl": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "lang": {
+            "type": "string"
+          },
+          "localService": {
+            "type": "boolean"
+          },
+          "default": {
+            "type": "boolean"
+          }
+        }
+      },
+      "DeviceOrientation": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        }
+      },
+      "MotionParams": {
+        "type": "object",
+        "properties": {
+          "accelerometer": {
+            "$ref": "#/components/schemas/DeviceOrientation"
+          },
+          "gravityAccelerometer": {
+            "$ref": "#/components/schemas/DeviceOrientation"
+          },
+          "gyroscope": {
+            "$ref": "#/components/schemas/DeviceOrientation"
+          }
+        }
+      },
+      "JuicyParams": {
+        "type": "object",
+        "properties": {
+          "test": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "bearerFormat": "JWT",
+        "scheme": "bearer"
+      }
+    }
+  }
+}
