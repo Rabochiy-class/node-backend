@@ -22,5 +22,7 @@ router.post( '/api/auth/confirm_phone_reg', authController.confirmPhoneReg )
 router.post( '/api/auth/login', authController.loginUser )
 router.post( '/api/auth/logout', authController.logoutUser )
 
+router.post( '/api/auth/donor_card', authController.getDonorCard )
+
 
 export default router

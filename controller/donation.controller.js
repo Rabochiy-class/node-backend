@@ -142,7 +142,7 @@ class DonationController {
   }
 
   async getDonationById( req, res ) {
-    console.log( req.headers )
+    console.log( req.query.id )
 
     try {
 
@@ -151,7 +151,7 @@ class DonationController {
         var options = {
         hostname: 'hackaton.donorsearch.org',
         port: 443,
-        path: '/api/donations/{id}/',
+        path: `/api/donations/${req.query.id}/`,
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ class DonationController {
   }
 
   async updateDonation( req, res ) {
-    console.log( req.headers )
+    console.log( req.query.id )
 
     try {
 
@@ -198,7 +198,7 @@ class DonationController {
         var options = {
         hostname: 'hackaton.donorsearch.org',
         port: 443,
-        path: '/api/donations/{id}/',
+        path: `/api/donations/${req.query.id}/`,
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -236,7 +236,7 @@ class DonationController {
   }
 
   async patchDonation( req, res ) {
-    console.log( req.headers )
+    console.log( req.query.id )
 
     try {
 
@@ -245,7 +245,7 @@ class DonationController {
         var options = {
         hostname: 'hackaton.donorsearch.org',
         port: 443,
-        path: '/api/donations/{id}/',
+        path: `/api/donations/${req.query.id}/`,
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ class DonationController {
   }
 
   async deleteDonation( req, res ) {
-    console.log( req.headers )
+    console.log( req.query.id )
 
     try {
 
@@ -292,7 +292,7 @@ class DonationController {
         var options = {
         hostname: 'hackaton.donorsearch.org',
         port: 443,
-        path: '/api/donations/{id}/',
+        path: `/api/donations/${req.query.id}/`,
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
