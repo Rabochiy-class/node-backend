@@ -1,28 +1,28 @@
-import { Router } from 'express'
-import authController from '../controller/auth.controller.js'
+import { Router } from 'express';
+import AuthController from '../controller/auth.controller.js';
 
-const router = Router()
+const router = Router();
+const controller = new AuthController();
 
-router.post( '/api/auth/change_email', authController.changeEmail )
-router.post( '/api/auth/change_password', authController.changePassword )
-router.post( '/api/auth/change_phone', authController.changePhone )
-router.post( '/api/auth/confirm_email', authController.confirmEmail )
-router.post( '/api/auth/confirm_phone', authController.confirmPhone )
+router.post('/api/auth/change_email', controller.changeEmail);
+router.post('/api/auth/change_password', controller.changePassword);
+router.post('/api/auth/change_phone', controller.changePhone);
+router.post('/api/auth/confirm_email', controller.confirmEmail);
+router.post('/api/auth/confirm_phone', controller.confirmPhone);
 
-router.post( '/api/auth/check_sms_code', authController.checkSMSCode )
-router.post( '/api/auth/recover', authController.accRecovery )
-router.post( '/api/auth/resend_code', authController.resendSMSCode )
-router.post( '/api/auth/resend_email_code', authController.resendEmailCode )
-router.post( '/api/auth/set_password', authController.setPassword )
+router.post('/api/auth/check_sms_code', controller.checkSMSCode);
+router.post('/api/auth/recover', controller.recovery);
+router.post('/api/auth/resend_code', controller.resendSMSCode);
+router.post('/api/auth/resend_email_code', controller.resendEmailCode);
+router.post('/api/auth/set_password', controller.setPassword);
 
-router.post( '/api/auth/registration', authController.regUser )
-router.post( '/api/auth/confirm_email_reg', authController.confirmEmailReg )
-router.post( '/api/auth/confirm_phone_reg', authController.confirmPhoneReg )
+router.post('/api/auth/registration', controller.register);
+router.post('/api/auth/confirm_email_reg', controller.confirmEmailOnRegistration);
+router.post('/api/auth/confirm_phone_reg', controller.confirmPhoneOnRegistration);
 
-router.post( '/api/auth/login', authController.loginUser )
-router.post( '/api/auth/logout', authController.logoutUser )
+router.post('/api/auth/login', controller.login);
+router.post('/api/auth/logout', controller.logout);
 
-router.post( '/api/auth/donor_card', authController.getDonorCard )
+router.post('/api/auth/donor_card', controller.getDonorCard);
 
-
-export default router
+export default router;

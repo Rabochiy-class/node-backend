@@ -1,240 +1,107 @@
-import https from 'https'
+import { performGenericJSONRequest } from "../utils/api.js";
 
-class DonationPlanController {
-    async postDonationPlan( req, res ) {
-        console.log( req.headers )
-    
+export default class DonationPlanController {
+    async postDonationPlan(request, response) {
         try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: '/api/donation_plan/',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/donation_plan/', 
+                method: 'POST', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
                 }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
             });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
-        }
-      }
 
-      async getDonationPlan( req, res ) {
-        console.log( req.headers )
-    
-        try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: '/api/donation_plan/',
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
-                }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
-            });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
         }
-      }
+    }
 
-      async getDonationPlanById( req, res ) {
-        console.log( req.query.id )
-    
+    async getDonationPlan(request, response) {
         try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/donation_plan/${req.query.id}/`,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
+            console.log(request.headers.cookie)
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/donation_plan/', 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
                 }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
             });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
+            
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
         }
-      }
+    }
 
-      async patchDonationPlan( req, res ) {
-        console.log( req.query.id )
-    
+    async getDonationPlanById(request, response) {
         try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/donation_plan/${req.query.id}/`,
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
+            const id = request.query.id;
+            const responseContent = await performGenericJSONRequest({
+                path: `/api/donation_plan/${id}/`, 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
                 }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
             });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
-        }
-      }
 
-      async deleteDonationPlan( req, res ) {
-        console.log( req.query.id )
-    
-        try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/donation_plan/${req.query.id}/`,
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
-                }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
-            });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
         }
-      }
+    }
+
+    async patchDonationPlan(request, response) {
+        try {
+            const id = request.query.id;
+            const responseContent = await performGenericJSONRequest({
+                path: `/api/donation_plan/${id}/`, 
+                method: 'PATCH', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
+                }
+            });
+
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
+
+    async deleteDonationPlan(request, response) {
+        try {
+            const id = request.query.id;
+            const responseContent = await performGenericJSONRequest({
+                path: `/api/donation_plan/${id}/`, 
+                method: 'DELETE', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
+                }
+            });
+
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
 }
-
-export default new DonationPlanController()

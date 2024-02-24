@@ -1,287 +1,129 @@
-import https from 'https'
+import { performGenericJSONRequest } from "../utils/api.js";
 
-class InfoController {
-    async getCities( req, res ) {
-        console.log( req.headers )
-    
+export default class InfoController {
+    // TODO: Page & PageSize
+    async getCities(request, response) {
         try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: '/api/cities/?page=1&page_size=5/',
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
+            const page = 1;
+            const pageSize = 5;
+            const responseContent = await performGenericJSONRequest({
+                path: `/api/cities/?page=${page}&page_size=${pageSize}/`, 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
                 }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
             });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
-        }
-      }
 
-      async getStationById( req, res ) {
-        console.log( req.query.id )
-    
-        try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/blood_stations/${req.query.id}/`,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
-                }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
-            });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
         }
-      }
+    }
 
-      async getBloodStationsByCity( req, res ) {
-        console.log( req.query.city_id )
-    
+    async getStationById(request, response) {
         try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/blood_stations/?city_id=${+req.query.cityId}`,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
+            const id = request.query.id;
+            const responseContent = await performGenericJSONRequest({
+                path: `/api/blood_stations/${id}/`, 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
                 }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
             });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
-        }
-      }
 
-      async getAddressNeeds( req, res ) {
-        console.log( req.query.id )
-    
-        try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/address_needs/`,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
-                }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
-            });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
         }
-      }
+    }
 
-      async getBonuses( req, res ) {
-        console.log( req.query.id )
-    
+    async getBloodStationsByCity(request, response) {
         try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/bonuses/`,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
+            const cityId = request.query.city_id;
+            const responseContent = await performGenericJSONRequest({
+                path: `/api/blood_stations/?city_id=${cityId}`, 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
                 }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
             });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
-        }
-      }
 
-      async getBonusById( req, res ) {
-        console.log( req.query.id )
-    
-        try {
-    
-            var postData = JSON.stringify(req.body)
-        
-            var options = {
-            hostname: 'hackaton.donorsearch.org',
-            port: 443,
-            path: `/api/bonuses/${req.query.id}`,
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': postData.length,
-                'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
-                }
-            };
-            
-            var answer = await new Promise( ( resolve ) => {
-            const apiReq = https.request(options, (res) => {
-            
-                const body = []
-        
-                res.on('data', (chunk) => body.push(chunk))
-                res.on('end', () => {
-                const resString = Buffer.concat(body).toString()
-                console.log( 'resString: ', resString )
-                resolve(resString)
-                })
-            })
-            apiReq.on('error', (e) => {
-                console.error(e);
-            });
-    
-            apiReq.write(postData);
-            apiReq.end();
-            })
-    
-            console.log( 'answer: ', answer )
-    
-            res.status( 201 ).json( JSON.parse( answer ) )
-        } catch ( e ) {
-            res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
         }
-      }
+    }
+
+    async getAddressNeeds(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/address_needs/', 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
+                }
+            });
+
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
+
+    async getBonuses(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/bonuses/', 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
+                }
+            });
+
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
+
+    async getBonusById(request, response) {
+        try {
+            const id = request.query.id;
+            const responseContent = await performGenericJSONRequest({
+                path: `/api/bonuses/${id}`, 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
+                }
+            });
+
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
 }
-
-export default new InfoController()

@@ -1,730 +1,246 @@
-import https from 'https'
+import { performChunkedRequestWithSideEffect, prepareRequestOptions, performGenericJSONRequest } from '../utils/api.js';
+import { errorToResponseObject } from '../utils/format.js';
 
-class AuthController {
-  async regUser( req, res ) {
-    try {
+export default class AuthController {
+    async register(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/registration/', 
+                method: 'POST', 
+                data: request.body
+            });
 
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/registration/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
-        
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resheaders: ', res.headers )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async confirmEmailReg( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/confirm_email_reg/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async confirmEmailOnRegistration(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/confirm_email_reg/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async confirmPhoneReg( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/confirm_phone_reg/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async confirmPhoneOnRegistration(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/confirm_phone_reg/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async loginUser( req, res ) {
-    try {
-      console.log(req.body)
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/login/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (apiRes) => {
+    async confirmEmail(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/confirm_email/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          apiRes.on('data', (chunk) => body.push(chunk))
-          apiRes.on('end', () => {
-
-            const resString = Buffer.concat(body).toString()
-
-            res.cookie('token', apiRes.headers.token, { maxAge: 90000000, httpOnly: true });
-
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async logoutUser( req, res ) {
-    try {
-      console.log( req.headers )
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/logout/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length,
-            'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async confirmPhone(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/confirm_phone/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async accRecovery( req, res ) {
-    try {
+    async login(request, response) {
+        try {
+            const parameters = {
+                path: '/api/auth/login/', 
+                method: 'POST', 
+                data: request.body
+            };
+            const stringified = JSON.stringify(parameters.data);
+            const requestOptions = prepareRequestOptions({...parameters, data: stringified});
+            const res = await performChunkedRequestWithSideEffect(requestOptions, stringified, (apiResponse) => {
+                response.cookie('token', apiResponse.headers.token, { maxAge: 90000000, httpOnly: true });
+            });
+            const responseContent = JSON.parse(res);
 
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/recover/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length,
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
+
+    async logout(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/logout/', 
+                method: 'POST', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
+                }
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async resendSMSCode( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/resend_code/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async recovery(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/recover/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async checkSMSCode( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/check_sms_code/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async resendSMSCode(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/resend_code/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async resendEmailCode( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/resend_email_code/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async resendEmailCode(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/resend_email_code/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async setPassword( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/set_password/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async checkSMSCode(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/check_sms_code/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async changeEmail( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/change_email/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async setPassword(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/set_password/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async changePassword( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/change_password/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async changeEmail(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/change_email/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async changePhone( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/change_phone/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async changePassword(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/change_password/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async confirmEmail( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/confirm_email/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async changePhone(request, response) {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/change_phone/', 
+                method: 'POST', 
+                data: request.body
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
 
-  async confirmPhone( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/confirm_phone/',
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length,
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
+    async getDonorCard() {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/change_phone/', 
+                method: 'POST', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                    }
+                }
+            });
         
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
     }
-  }
-
-  async getDonorCard( req, res ) {
-    try {
-
-      var postData = JSON.stringify(req.body)
-    
-      var options = {
-        hostname: 'hackaton.donorsearch.org',
-        port: 443,
-        path: '/api/auth/donor_card/',
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': postData.length,
-            'Authorization': 'Token ' + req.headers.cookie.slice( 6 )
-          }
-      };
-      
-      var answer = await new Promise( ( resolve ) => {
-        const apiReq = https.request(options, (res) => {
-        
-          const body = []
-  
-          res.on('data', (chunk) => body.push(chunk))
-          res.on('end', () => {
-            const resString = Buffer.concat(body).toString()
-            console.log( 'resString: ', resString )
-            resolve(resString)
-          })
-        })
-        apiReq.on('error', (e) => {
-          console.error(e);
-        });
-
-        apiReq.write(postData);
-        apiReq.end();
-      })
-
-      console.log( 'answer: ', answer )
-
-      // const post = await characterService.create( req.body )
-      res.status( 201 ).json( JSON.parse( answer ) )
-    } catch ( e ) {
-      res.status( 500 ).json( e )
-    }
-  }
 }
-
-export default new AuthController()

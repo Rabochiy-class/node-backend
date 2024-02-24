@@ -1,15 +1,16 @@
-import { Router } from 'express'
-import donationPlanController from '../controller/donationPlan.controller.js'
+import { Router } from 'express';
+import DonationPlanController from '../controller/donationPlan.controller.js';
 
-const router = Router()
+const router = Router();
+const controller = new DonationPlanController();
 
-router.post( '/api/donation_plan', donationPlanController.postDonationPlan )
+router.post('/api/donation_plan', controller.postDonationPlan);
 
-router.get( '/api/donation_plan', donationPlanController.getDonationPlan )
-router.get( '/api/donation_plan/:id', donationPlanController.getDonationPlanById )
+router.get('/api/donation_plan', controller.getDonationPlan);
+router.get('/api/donation_plan/:id', controller.getDonationPlanById);
 
-router.patch( '/api/donation_plan/:id', donationPlanController.patchDonationPlan )
+router.patch('/api/donation_plan/:id', controller.patchDonationPlan);
 
-router.delete( '/api/donation_plan/:id', donationPlanController.deleteDonationPlan )
+router.delete('/api/donation_plan/:id', controller.deleteDonationPlan);
 
-export default router
+export default router;
