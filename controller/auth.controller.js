@@ -228,7 +228,7 @@ export default class AuthController {
         }
     }
 
-    async getDonorCard() {
+    async getDonorCard(request, response) {
         try {
             const responseContent = await performGenericJSONRequest({
                 path: '/api/auth/change_phone/', 
@@ -248,7 +248,7 @@ export default class AuthController {
         }
     }
 
-    async getAuthMe() {
+    async getAuthMe(request, response) {
         try {
             const responseContent = await performGenericJSONRequest({
                 path: '/api/auth/me/', 
