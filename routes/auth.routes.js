@@ -23,6 +23,9 @@ router.post('/api/auth/confirm_phone_reg', controller.confirmPhoneOnRegistration
 router.post('/api/auth/login', controller.login);
 router.post('/api/auth/logout', controller.logout);
 
-router.post('/api/auth/donor_card', controller.getDonorCard);
+router.get('/api/auth/donor_card', controller.getDonorCard);
+
+router.get( '/api/auth/me', controller.getAuthMe )
+router.patch( '/api/auth/me', controller.patchAuthMe )
 
 export default router;

@@ -232,7 +232,47 @@ export default class AuthController {
         try {
             const responseContent = await performGenericJSONRequest({
                 path: '/api/auth/change_phone/', 
-                method: 'POST', 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': request.headers.authorization
+                    }
+                }
+            });
+        
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
+
+    async getAuthMe() {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/me/', 
+                method: 'GET', 
+                data: request.body,
+                options: {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': request.headers.authorization
+                    }
+                }
+            });
+        
+            response.status(201).json(responseContent);
+        } catch (e) {
+            response.status(500).json(errorToResponseObject(e));
+        }
+    }
+
+    async patchAuthMe() {
+        try {
+            const responseContent = await performGenericJSONRequest({
+                path: '/api/auth/me/', 
+                method: 'PATCH', 
                 data: request.body,
                 options: {
                     headers: {
