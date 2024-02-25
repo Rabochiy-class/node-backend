@@ -14,7 +14,7 @@ export default class InfoController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -35,7 +35,7 @@ export default class InfoController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -56,7 +56,7 @@ export default class InfoController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -76,7 +76,7 @@ export default class InfoController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -96,7 +96,7 @@ export default class InfoController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -117,7 +117,7 @@ export default class InfoController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });

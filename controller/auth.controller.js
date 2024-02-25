@@ -81,10 +81,14 @@ export default class AuthController {
             };
             const stringified = JSON.stringify(parameters.data);
             const requestOptions = prepareRequestOptions({...parameters, data: stringified});
+
+            let token = null
+
             const res = await performChunkedRequestWithSideEffect(requestOptions, stringified, (apiResponse) => {
-                response.cookie('token', apiResponse.headers.token, { maxAge: 90000000, httpOnly: true, sameSite: 'none', secure: 'false' });
+                token = apiResponse.headers.token
             });
-            const responseContent = JSON.parse(res);
+
+            const responseContent = { user: JSON.parse( res ), token };
 
             response.status(201).json(responseContent);
         } catch (e) {
@@ -101,7 +105,7 @@ export default class AuthController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -233,7 +237,7 @@ export default class AuthController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });

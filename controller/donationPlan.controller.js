@@ -11,7 +11,7 @@ export default class DonationPlanController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -24,7 +24,6 @@ export default class DonationPlanController {
 
     async getDonationPlan(request, response) {
         try {
-            console.log(request.headers.cookie)
             const responseContent = await performGenericJSONRequest({
                 path: '/api/donation_plan/', 
                 method: 'GET', 
@@ -32,7 +31,7 @@ export default class DonationPlanController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -53,7 +52,7 @@ export default class DonationPlanController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -74,7 +73,7 @@ export default class DonationPlanController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
@@ -95,7 +94,7 @@ export default class DonationPlanController {
                 options: {
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': `Token ${request.headers.cookie.slice(6)}`
+                        'Authorization': request.headers.authorization
                     }
                 }
             });
