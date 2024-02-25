@@ -41,6 +41,8 @@ export function performChunkedRequest(options, data) {
         const request = https.request(options, (response) => {
             response.on('data', (chunk) => bodyBuffer.push(chunk));
             response.on('end', () => {
+                if (response.statusCode && response.statusCode % 100 !== 2)
+                    console.log(`[${options.method}][${options.path}] Returned non-200s code ${response.statusCode}`)
                 resolve(Buffer.concat(bodyBuffer).toString());
             })
         });
@@ -115,7 +117,7 @@ export async function performGenericJSONRequest({
     const stringified = JSON.stringify(data);
     const requestOptions = prepareRequestOptions({path: path, method: method, data: stringified, ...options});
     const response = await performChunkedRequest(requestOptions, stringified);
-    const content = JSON.parse(response);
+    const content = response ? JSON.parse(response) : {};
 
     return content;
 }
