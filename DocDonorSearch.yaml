@@ -674,25 +674,53 @@ paths:
               schema:
                 $ref: '#/components/schemas/Picture'
           description: ''
-  /api/auth/donor_card:
-    post:
-      operationId: auth_donor_card_retrieve
-      description: Changes the phone number of a user.
-      summary: Change Phone Number
+  /api/auth/me:
+    get:
+      operationId: auth_me_retrieve
+      description: Retrieves or updates the current user's information. Requires user
+        to be authenticated.
+      summary: Get Or Update Current User Information
+      tags:
+        - Account Data Management
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: auth_me_partial_update
+      description: Retrieves or updates the current user's information. Requires user
+        to be authenticated.
+      summary: Get Or Update Current User Information
       tags:
         - Account Data Management
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PhoneChangeSerialzier'
+              $ref: '#/components/schemas/PatchedUser'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PhoneChangeSerialzier'
+              $ref: '#/components/schemas/PatchedUser'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PhoneChangeSerialzier'
-        required: true
+              $ref: '#/components/schemas/PatchedUser'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/auth/donor_card:
+    get:
+      operationId: auth_donor_card_retrieve
+      description: Changes the phone number of a user.
+      summary: Change Phone Number
+      tags:
+        - Account Data Management
       responses:
         '200':
           content:
@@ -2957,6 +2985,154 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/City'
+    PatchedUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+          title: Дата регистрации
+        username:
+          type: string
+          maxLength: 50
+        first_name:
+          type: string
+          title: Имя
+          maxLength: 255
+        last_name:
+          type: string
+          title: Фамилия
+          maxLength: 255
+        middle_name:
+          type: string
+          title: Отчество
+          maxLength: 255
+        maiden_name:
+          type: string
+          title: Девичья фамилия
+          maxLength: 255
+        birth_date:
+          type: string
+          format: date
+          nullable: true
+          title: Дата рождения
+        gender:
+          title: Пол
+          oneOf:
+            - $ref: '#/components/schemas/GenderEnum'
+            - $ref: '#/components/schemas/BlankEnum'
+        email:
+          type: string
+          format: email
+          readOnly: true
+          title: Адрес электронной почты
+        phone:
+          type: string
+          readOnly: true
+          title: Номер телефона
+        login_via_phone:
+          type: boolean
+          title: Вход по номеру телефон
+        about:
+          type: string
+          title: О себе
+          maxLength: 130
+        city_id:
+          type: integer
+        city:
+          allOf:
+            - $ref: '#/components/schemas/City'
+          readOnly: true
+        is_pin_20:
+          type: boolean
+          title: '20'
+        is_pin_100:
+          type: boolean
+          title: '100'
+        donation_agg:
+          allOf:
+            - $ref: '#/components/schemas/DonationAgg'
+          readOnly: true
+        socials:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleUserSocialAuth'
+          readOnly: true
+        photo:
+          allOf:
+            - $ref: '#/components/schemas/InlinePicture'
+          readOnly: true
+        photo_id:
+          type: integer
+          nullable: true
+        next_donation_date:
+          type: string
+          readOnly: true
+        next_donation:
+          type: string
+          readOnly: true
+        blood_group:
+          type: string
+          readOnly: true
+        has_password:
+          type: string
+          readOnly: true
+        is_email_verified:
+          type: string
+          readOnly: true
+        is_phone_verified:
+          type: string
+          readOnly: true
+        email_reconfirmed_at:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дата подтверждения почты через баннер
+        phone_reconfirmed_at:
+          type: string
+          format: date-time
+          nullable: true
+          title: Дата подтверждения телефона через баннер
+        legacy_avatar:
+          type: string
+          readOnly: true
+        start_donor_year:
+          type: string
+          readOnly: true
+        referal_code:
+          type: string
+          format: uuid
+          readOnly: true
+          title: Реферальный код
+        parent_user:
+          allOf:
+            - $ref: '#/components/schemas/TopUsers'
+          readOnly: true
+        invited_users:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopUsers'
+          readOnly: true
+        donor_status:
+          allOf:
+            - $ref: '#/components/schemas/DonorStatus'
+          readOnly: true
+        managed_organizations:
+          type: string
+          readOnly: true
+        joined_events:
+          type: string
+          readOnly: true
+        joined_organizations:
+          type: string
+          readOnly: true
+        donor_certificate:
+          type: boolean
+          title: Получено удостоверение почётного донора
     BloodClass2c1Enum:
       enum:
         - blood
