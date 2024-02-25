@@ -111,7 +111,7 @@ export default class InfoController {
         try {
             const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
-                path: `/api/bonuses/${id}`, 
+                path: `/api/bonuses/${id}/`,
                 method: 'GET', 
                 data: request.body,
                 options: {
