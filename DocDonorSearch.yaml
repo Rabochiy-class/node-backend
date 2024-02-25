@@ -314,7 +314,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserHandler'
           description: ''
   /api/auth/logout:
     post:
@@ -1101,6 +1101,13 @@ paths:
           description: ''
 components:
   schemas:
+    UserHandler:
+      type: object
+      properties:
+        token:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'  
     RejectReasonEnum:
       enum:
         - photo1
