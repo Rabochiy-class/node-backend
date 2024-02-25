@@ -64,7 +64,7 @@ export default class DonationController {
 
     async getDonationById(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/donations/${id}/`, 
                 method: 'GET', 
@@ -85,7 +85,7 @@ export default class DonationController {
 
     async updateDonation(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/donations/${id}/`, 
                 method: 'PUT', 
@@ -104,10 +104,9 @@ export default class DonationController {
         }
     }
 
-    // Не совсем понятно отличие с updateDonation
     async patchDonation(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/donations/${id}/`, 
                 method: 'PATCH', 
@@ -128,7 +127,7 @@ export default class DonationController {
 
     async deleteDonation(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/donations/${id}`, 
                 method: 'DELETE', 

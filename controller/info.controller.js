@@ -27,7 +27,7 @@ export default class InfoController {
 
     async getStationById(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/blood_stations/${id}/`, 
                 method: 'GET', 
@@ -109,7 +109,7 @@ export default class InfoController {
 
     async getBonusById(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/bonuses/${id}`, 
                 method: 'GET', 

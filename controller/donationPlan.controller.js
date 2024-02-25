@@ -44,7 +44,7 @@ export default class DonationPlanController {
 
     async getDonationPlanById(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/donation_plan/${id}/`, 
                 method: 'GET', 
@@ -65,7 +65,7 @@ export default class DonationPlanController {
 
     async patchDonationPlan(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/donation_plan/${id}/`, 
                 method: 'PATCH', 
@@ -86,7 +86,7 @@ export default class DonationPlanController {
 
     async deleteDonationPlan(request, response) {
         try {
-            const id = request.query.id;
+            const id = request.params.id;
             const responseContent = await performGenericJSONRequest({
                 path: `/api/donation_plan/${id}/`, 
                 method: 'DELETE', 
