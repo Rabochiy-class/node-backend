@@ -32,7 +32,6 @@ export function performChunkedRequestWithSideEffect(options, data, effect) {
  *
  * @param {*} options настройки запроса, передаваемые в https клиент
  * @param {*} data полезная нагрузка запроса
- * @param {*} effect функция с сигнатурой `f(response: IncomingMessage)`, вызываемая в случае успешного запроса
  * @return {*} `Promise` с https запросом
  */
 export function performChunkedRequest(options, data) {
@@ -41,7 +40,7 @@ export function performChunkedRequest(options, data) {
         const request = https.request(options, (response) => {
             response.on('data', (chunk) => bodyBuffer.push(chunk));
             response.on('end', () => {
-                if (response.statusCode && response.statusCode % 100 !== 2)
+                if (response.statusCode && Math.floor(response.statusCode / 100) !== 2)
                     console.log(`[${options.method}][${options.path}] Returned non-200s code ${response.statusCode}`)
                 resolve(Buffer.concat(bodyBuffer).toString());
             })
