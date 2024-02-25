@@ -268,7 +268,7 @@ export default class AuthController {
         }
     }
 
-    async patchAuthMe() {
+    async patchAuthMe(request, response) {
         try {
             const responseContent = await performGenericJSONRequest({
                 path: '/api/auth/me/', 
